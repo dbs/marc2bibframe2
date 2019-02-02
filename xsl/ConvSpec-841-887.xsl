@@ -17,7 +17,7 @@
     <xsl:param name="recordid"/>
     <xsl:param name="serialization" select="'rdfxml'"/>
     <xsl:if test="marc:subfield[@code='u'] and
-                  substring(marc:subfield[@code='u'], 1, 25) != 'http://www.loc.gov/catdir'
+                  not(starts-with(marc:subfield[@code='u'], 'http://www.loc.gov/catdir'))
                   and
                   (@ind2='1' or
                   (@ind2 != '0' and @ind2 != '2' and
@@ -77,7 +77,7 @@
   <xsl:template match="marc:datafield[@tag='856']" mode="instance">
     <xsl:param name="recordid"/>
     <xsl:param name="serialization" select="'rdfxml'"/>
-      <xsl:if test="marc:subfield[@code='u'] and (@ind2='2' or substring(marc:subfield[@code='u'], 1, 25) = 'http://www.loc.gov/catdir')">
+      <xsl:if test="marc:subfield[@code='u'] and (@ind2='2' or starts-with(marc:subfield[@code='u'], 'http://www.loc.gov/catdir'))">
       <xsl:choose>
         <xsl:when test="$serialization = 'rdfxml'">
           <xsl:apply-templates select="." mode="locator856">
